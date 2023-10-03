@@ -2,6 +2,7 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
+  const dayJsObject = dayjs();
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -9,7 +10,43 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   //
+  function saveToLocalStorage() {
+    console.log("click");
+    let timeBlock = $(this).closest(".time-block");
+    let blockId = timeBlock.attr("id");
+    console.log(blockId);
+
+    let value = timeBlock.find(".description").val();
+    console.log(value);
+
+    localStorage.setItem(blockId, value);
+    timeBlock.find(".description").val("");
+  }
   // TODO: Add code to apply the past, present, or future class to each time
+  function setUpTimeBackground() {
+    const formattedCurrentHour = dayJsObject.format("HH");
+    let currentHour = parseInt(formattedCurrentHour);
+    console.log(typeof currentHour);
+
+    $(".time-block").each(function () {
+      const timeBlock = $(this);
+      console.log($(this));
+
+      const timeBlockHour = parseInt(timeBlock.attr("id").split("-")[1]);
+      console.log(typeof timeBlockHour);
+      //Remove existing class
+      $(timeBlock).removeClass("past", "present", "future");
+
+      //compare currentHour with time block's id
+      if (timeBlockHour < currentHour) {
+        $(timeBlock).addClass("past");
+      } else if (timeBlockHour === currentHour) {
+        $(timeBlock).addClass("present");
+      } else {
+        $(timeBlock).addClass("future");
+      }
+    });
+  };
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
@@ -20,4 +57,12 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
+  const currentDate = () => {
+    const formattedDate = dayJsObject.format("dddd, MMMM D");
+    $("#currentDay").text(formattedDate);
+  };
+  currentDate();
+  setUpTimeBackground();
+
+  $(".saveBtn").on("click", saveToLocalStorage);
 });
