@@ -2,6 +2,7 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
+  const dayJsObject = dayjs();
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -9,7 +10,34 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   //
+  const saveToLocalStorage = ()=> {
+    
+  }
   // TODO: Add code to apply the past, present, or future class to each time
+  const setUpTimeBackground = () => {
+    const formattedCurrentHour = dayJsObject.format("h");
+    let currentHour = formattedCurrentHour;
+    console.log(currentHour);
+
+    $(".time-block").each(function () {
+      const timeBlock = $(this);
+      console.log($(this))
+
+      const timeBlockHour = parseInt(timeBlock.attr("id").split("-")[1]);
+  console.log(timeBlockHour);
+      //Remove existing class
+      $(timeBlock).removeClass("past present future");
+
+      //compare currentHour with time block's id
+      if (timeBlockHour < currentHour) {
+        $(timeBlock).addClass("past");
+      } else if (timeBlockHour === currentHour) {
+        $(timeBlock).addClass("present");
+      } else {
+        $(timeBlock).addClass("future");
+      }
+    });
+  };
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
@@ -21,10 +49,9 @@ $(function () {
   //
   // TODO: Add code to display the current date in the header of the page.
   const currentDate = () => {
-    const dayJsObject = dayjs();
-    console.log(dayJsObject.format("M/D/YYYY"));
     const formattedDate = dayJsObject.format("dddd, MMMM D");
     $("#currentDay").text(formattedDate);
   };
-  currentDate()
+  currentDate();
+  setUpTimeBackground()
 });
