@@ -24,23 +24,23 @@ $(function () {
   }
   // TODO: Add code to apply the past, present, or future class to each time
   function setUpTimeBackground() {
-    const formattedCurrentHour = dayJsObject.format("h");
-    let currentHour = formattedCurrentHour;
-    console.log(currentHour);
+    const formattedCurrentHour = dayJsObject.format("HH");
+    let currentHour = parseInt(formattedCurrentHour);
+    console.log(typeof currentHour);
 
     $(".time-block").each(function () {
       const timeBlock = $(this);
       console.log($(this));
 
       const timeBlockHour = parseInt(timeBlock.attr("id").split("-")[1]);
-      console.log(timeBlockHour);
+      console.log(typeof timeBlockHour);
       //Remove existing class
       $(timeBlock).removeClass("past", "present", "future");
 
       //compare currentHour with time block's id
       if (timeBlockHour < currentHour) {
         $(timeBlock).addClass("past");
-      } else if (timeBlockHour == currentHour) {
+      } else if (timeBlockHour === currentHour) {
         $(timeBlock).addClass("present");
       } else {
         $(timeBlock).addClass("future");
