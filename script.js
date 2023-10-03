@@ -35,12 +35,12 @@ $(function () {
       const timeBlockHour = parseInt(timeBlock.attr("id").split("-")[1]);
       console.log(timeBlockHour);
       //Remove existing class
-      $(timeBlock).removeClass("past present future");
+      $(timeBlock).removeClass("past", "present", "future");
 
       //compare currentHour with time block's id
       if (timeBlockHour < currentHour) {
         $(timeBlock).addClass("past");
-      } else if (timeBlockHour === currentHour) {
+      } else if (timeBlockHour == currentHour) {
         $(timeBlock).addClass("present");
       } else {
         $(timeBlock).addClass("future");
