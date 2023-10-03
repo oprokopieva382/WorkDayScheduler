@@ -3,6 +3,7 @@
 // in the html.
 $(function () {
   const dayJsObject = dayjs();
+  
   //function that listen for save button click and store to local storage
   function saveToLocalStorage() {
     console.log("click");
@@ -11,8 +12,8 @@ $(function () {
 
     let value = timeBlock.find(".description").val().trim();
     localStorage.setItem(blockId, value);
-    timeBlock.find(".description").val("");
   }
+
   //function that check current time and change for proper background color
   function setUpTimeBackground() {
     const formattedCurrentHour = dayJsObject.format("HH");
@@ -21,10 +22,8 @@ $(function () {
 
     $(".time-block").each(function () {
       const timeBlock = $(this);
-      console.log($(this));
-
       const timeBlockHour = parseInt(timeBlock.attr("id").split("-")[1]);
-      console.log(typeof timeBlockHour);
+
       //Remove existing class
       $(timeBlock).removeClass("past", "present", "future");
 
@@ -38,10 +37,19 @@ $(function () {
       }
     });
   }
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
+
+//function to load saved info from local storage
+  function loadFromLocalStorage() {
+    $(".time-block").each(function () {
+      let blockId = $(this).attr("id");
+      let value = localStorage.getItem(blockId);
+
+      if (value !== null) {
+        $(this).find(".description").val(value);
+      }
+    });
+  }
+
   //function that display current date
   const currentDate = () => {
     const formattedDate = dayJsObject.format("dddd, MMMM D");
@@ -49,6 +57,7 @@ $(function () {
   };
   currentDate();
   setUpTimeBackground();
+  loadFromLocalStorage()
 
   $(".saveBtn").on("click", saveToLocalStorage);
 });
