@@ -3,7 +3,7 @@
 // in the html.
 $(function () {
   const dayJsObject = dayjs();
-  
+
   //function that listen for save button click and store to local storage
   function saveToLocalStorage() {
     console.log("click");
