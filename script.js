@@ -10,21 +10,30 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
   //
-  const saveToLocalStorage = ()=> {
-    
+  function saveToLocalStorage() {
+    console.log("click");
+    let timeBlock = $(this).closest(".time-block");
+    let blockId = timeBlock.attr("id");
+    console.log(blockId);
+
+    let value = timeBlock.find(".description").val();
+    console.log(value);
+
+    localStorage.setItem(blockId, value);
+    timeBlock.find(".description").val("");
   }
   // TODO: Add code to apply the past, present, or future class to each time
-  const setUpTimeBackground = () => {
+  function setUpTimeBackground() {
     const formattedCurrentHour = dayJsObject.format("h");
     let currentHour = formattedCurrentHour;
     console.log(currentHour);
 
     $(".time-block").each(function () {
       const timeBlock = $(this);
-      console.log($(this))
+      console.log($(this));
 
       const timeBlockHour = parseInt(timeBlock.attr("id").split("-")[1]);
-  console.log(timeBlockHour);
+      console.log(timeBlockHour);
       //Remove existing class
       $(timeBlock).removeClass("past present future");
 
@@ -53,5 +62,7 @@ $(function () {
     $("#currentDay").text(formattedDate);
   };
   currentDate();
-  setUpTimeBackground()
+  setUpTimeBackground();
+
+  $(".saveBtn").on("click", saveToLocalStorage);
 });
